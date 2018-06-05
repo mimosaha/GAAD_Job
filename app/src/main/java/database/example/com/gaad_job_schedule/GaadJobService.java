@@ -9,11 +9,25 @@ import android.os.Message;
 import android.os.Messenger;
 import android.os.RemoteException;
 import android.support.annotation.RequiresApi;
+import android.util.Log;
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 public class GaadJobService extends JobService {
 
     private Messenger messages;
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+
+        Log.v("MIMO_SAHA:", "On Create");
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.v("MIMO_SAHA:", "On Destroy");
+    }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -26,6 +40,8 @@ public class GaadJobService extends JobService {
     public boolean onStartJob(final JobParameters jobParameters) {
         handleStartService(JobType.JOB_START, jobParameters.getJobId());
         long duration = jobParameters.getExtras().getLong(MainActivity.WORK_DURATION_KEY);
+
+        Log.v("MIMO_SAHA:", "Duration: " + duration);
 
         new Handler().postDelayed(new Runnable() {
             @Override
